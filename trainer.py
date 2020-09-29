@@ -147,9 +147,9 @@ class trainer:
             # grow network.
             if floor(self.resl) != prev_resl and floor(self.resl)<self.max_resl+1:
                 self.lr = self.lr * float(self.config.lr_decay)
-                self.G.grow_network(floor(self.resl))
+                self.G.module.grow_network(floor(self.resl))
                 #self.Gs.grow_network(floor(self.resl))
-                self.D.grow_network(floor(self.resl))
+                self.D.module.grow_network(floor(self.resl))
                 self.renew_everything()
                 self.fadein['gen'] = dict(self.G.model.named_children())['fadein_block']
                 self.fadein['dis'] = dict(self.D.model.named_children())['fadein_block']
@@ -297,8 +297,8 @@ class trainer:
                 if self.use_tb:
                     with torch.no_grad():
                         x_test = self.G(self.z_test)
-                    self.tb.add_scalar('data/loss_g', loss_g[0].item(), self.globalIter)
-                    self.tb.add_scalar('data/loss_d', loss_d[0].item(), self.globalIter)
+                    self.tb.add_scalar('data/loss_g', loss_g.item(), self.globalIter)
+                    self.tb.add_scalar('data/loss_d', loss_d.item(), self.globalIter)
                     self.tb.add_scalar('tick/lr', self.lr, self.globalIter)
                     self.tb.add_scalar('tick/cur_resl', int(pow(2,floor(self.resl))), self.globalIter)
                     '''IMAGE GRID

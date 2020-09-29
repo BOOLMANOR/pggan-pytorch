@@ -37,7 +37,7 @@ class dataloader:
             dataset=self.dataset,
             batch_size=self.batchsize,
             shuffle=True,
-            num_workers=self.num_workers
+            num_workers=0
         )
 
     def __iter__(self):
